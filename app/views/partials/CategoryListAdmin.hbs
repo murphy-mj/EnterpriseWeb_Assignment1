@@ -1,0 +1,56 @@
+<section class="ui raised segment">
+    <div class="ui grid">
+        <aside class="six wide column">
+            <img src="images/homer5.jpg" class="ui medium image">
+        </aside>
+        <article class="eight wide column">
+            <table class="ui celled table segment">
+                <thead>
+                <tr><p>Points of Interest are sorted by Category for your convenience.
+                    To see more information on the Point of interest, please select view</p></tr>
+                </thead>
+                <tbody>
+                <div>
+                    {{#each groupCat}}
+                    {{!-- as each object in the collection share same category, hence we can use the first object cat name--}}
+                        <tr><td><b>{{ this.[0].category}}</b></td></tr>
+                        <tr><<td>Name</td><td>Description</td></tr>
+                        {{#each this}}
+                            <tr>
+                                <td>{{ this.name }}</td>
+                                <td> {{this.description}} </td>
+                                <td> {{this._id}} </td>
+                                {{#formatSelect PID}}
+                                <td><a href="/pointView/{{this._id}}" ><i><b>View</b></i></a></td>
+                                {{else}}
+                                    <td><a href="/pointView/{{this._id}}" ><i><b>View</b></i></a> </td>
+                                    <td><a href="/pointEdit?id={{this._id}}" ><i> Edit</i></a> </td>
+                                    <td><a href="/pointDelete/{{this._id}}" ><i> Delete</i></a> </td>
+                                {{/formatSelect}}
+
+                            </tr>
+                        {{!--just using different methods to transfer the id ? and /--}}
+                        {{/each}}
+                    {{/each}}
+                </div>
+
+                </tbody>
+            </table>
+        </article>
+    </div>
+</section>
+
+
+module.exports = (location,str,options)=> {
+console.log(location);
+if(location) {
+const t = str.split(",");
+if (location === "latitude") {
+return new Handlebars.SafeString("<label>Location "+ t[0]+"</label> <input placeholder = latitude type = text name=latitude>");
+} else {
+return new Handlebars.SafeString("<label>Location "+ t[1] +"</label> <input placeholder = longitude type = text name=longitude>");
+}
+}
+return new Handlebars.SafeString("<label>Location non specified </label> <input placeholder = latitude type = text name=latitude>");
+
+};

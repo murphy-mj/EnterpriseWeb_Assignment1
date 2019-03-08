@@ -1,18 +1,12 @@
-<nav class="ui inverted menu">
-    <header class="header item"> <a href="/"> Lets add a new Item </a> </header>
-    <div class="right menu">
-        <a class="item" href="/home"> Home</a>
-        <a class="item" href="/report"> View Points</a>
-        <a class="item" href="/logout">  Logout</a>
-        <a class="active item" href="/addPoint">  Add new POI</a>
-    </div>
-</nav>
+
+{{> mainmenu}}
+
 <section class="ui raised segment">
     <div class="ui grid">
         <div class="ui ten wide column">
             <div class="ui stacked fluid form segment">
                 <form action="/addPoint" method="POST">
-                    <h3 class="ui header">Add a point of interest</h3>
+                    <h3 class="ui header">{{title}}</h3>
                     <div class="two fields">
                         <div class="field">
                             <label>POI Name</label>
@@ -34,11 +28,15 @@
 
                     <div class="two fields">
                         <div class="field">
-                            <label>Location</label>
-                            <input placeholder="location" type="text" name="location">
+                            <label>Location latitude</label>
+                            <input placeholder = 00.00 type = text name=latitude>"
+                        <div class="field">
+                            <label>Location longitude</label>
+                            <input placeholder = 00.00 type = text name=longitude>
                         </div>
+                    </div>
                     <button class="ui blue submit button">Submit</button>
-                </form>
+                 </form>
             </div>
         </div>
         <aside class="ui five wide column">

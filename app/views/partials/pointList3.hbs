@@ -1,0 +1,41 @@
+<section class="ui raised segment">
+    <div class="ui grid">
+        <aside class="six wide column">
+            <img src="images/homer4.jpg" class="ui medium image">
+        </aside>
+        <article class="eight wide column">
+            <table class="ui celled table segment">
+                <thead>
+                <tr>
+                    <th>helper class</th>
+                    <th>Category</th>
+                </tr>
+
+
+                </thead>
+                <tbody>
+
+                <script id="form-state" type="text/x-handlebars-template">
+                    <select name="state">
+                        {{{options_selectedd states selectedState}}}
+                    </select>
+                </script>
+
+
+                </tbody>
+
+            </table>
+        </article>
+    </div>
+
+
+
+
+
+</section>
+/*
+// {{#each category}}
+//    <option value="{{this}}" {{selected this ../selectedState}}>{{this}}</option>
+{{/each}}
+*/
+{{!  {{{selected category selectedState}}}  }}

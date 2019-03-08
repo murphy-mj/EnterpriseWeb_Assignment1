@@ -1,0 +1,33 @@
+<section class="ui raised segment">
+    <div class="ui grid">
+        <aside class="six wide column">
+            <img src="images/homer5.jpg" class="ui medium image">
+        </aside>
+        <article class="eight wide column">
+            <table class="ui celled table segment">
+                <thead>
+                <tr><p> Details of the Points of Interest selected by you.</p></tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td> Name </td>
+                    <td> Description </td>
+                    <td></td>
+                    <td> Latitude</td>
+                    <td></td>
+                    <td> Longitude</td>
+                </tr>
+                    {{#each this}}
+                        <tr>
+                        <td>{{ this.name }}</td>
+                        <td> {{this.description}}</td>
+                        <td> {{{locationSplit location 1}}}</td>
+                        <td> {{{locationSplit location 2}}}</td>
+                        </tr>
+                    {{/each}}
+
+                </tbody>
+            </table>
+        </article>
+    </div>
+</section>

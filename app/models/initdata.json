@@ -1,0 +1,21 @@
+{
+  "users": {
+    "_model": "User",
+    "homer": {
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "email": "homer@simpson.com",
+      "password": "secret"
+    }
+  },
+  "admin": {
+    "_model": "AdminA",
+    "staff": {
+      "firstName": "Janis",
+      "lastName": "Stone",
+      "email": "janis@stone.com",
+      "password": "secret"
+
+    }
+  }
+}

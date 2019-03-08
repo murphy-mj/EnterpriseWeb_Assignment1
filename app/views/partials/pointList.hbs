@@ -13,14 +13,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                {{#each pois}}
-                    <tr>
-                        <td> {{name}} </td>
-                        <td> {{category}} </td>
-                        <td> {{_id}} </td>
-                    </tr>
+                <select id="sel">
+                    <option value="">-- Select --</option>
+                </select>
+                {{#each}}
+                    <option value="{{this}}" {{selected this ../selectedState}}>{{this}}</option>
                 {{/each}}
                 </tbody>
+
             </table>
         </article>
     </div>

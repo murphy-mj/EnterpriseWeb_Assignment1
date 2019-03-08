@@ -1,0 +1,36 @@
+{{> mainmenu}}}
+
+<section class="ui raised segment">
+    <div class="ui grid">
+        <div class="ui ten wide column">
+            <div class="ui stacked fluid form segment">
+                    <h3 class="ui header">Update Details</h3>
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Name Of Point Of Interest</label>
+                            <input value="{{pointt.name}}" type="text" name="name">
+                        </div>
+                        <div class="field">
+                            <label>Description</label>
+                            <input value="{{pointt.description}}" type="text" name="description">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Category</label>
+                        <input value="{{pointt.category}}" type="text" name="category">
+                    </div>
+                    <div class="field">
+                        <label>Image</label>
+                        <input value="no image" type="text" name="image">
+                    </div>
+                    <div class="field">
+                        <label>Location</label>
+                        <input value="{{pointt.location}}" type="text" name="locaton">
+                    </div>
+            </div>
+        </div>
+        <aside class="ui five wide column">
+            <img src="images/homer3.png" class="ui medium image">
+        </aside>
+    </div>
+</section>

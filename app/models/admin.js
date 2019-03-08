@@ -3,7 +3,7 @@ const Boom = require('boom');
 const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
 
-const userSchema = new Schema({
+const adminSchema = new Schema({
     firstName: String,
     lastName: String,
     email: String,
@@ -11,11 +11,14 @@ const userSchema = new Schema({
 });
 
 
-userSchema.statics.findByEmail = function(email) {
+adminSchema.statics.findByEmail = function(email) {
     return this.findOne({ email : email});
 };
 
-userSchema.methods.comparePassword = function(candidatePassword) {
+
+
+
+adminSchema.methods.comparePassword = function(candidatePassword) {
     const isMatch = this.password === candidatePassword;
     if (!isMatch) {
         throw new Boom('Password mismatch');
@@ -23,4 +26,4 @@ userSchema.methods.comparePassword = function(candidatePassword) {
     return this;
 };
 
-module.exports = Mongoose.model('User', userSchema);
+module.exports = Mongoose.model('AdminA', adminSchema);

@@ -8,13 +8,20 @@ module.exports = [
     { method: 'GET', path: '/', config: Accounts.index },
     { method: 'GET', path: '/signup', config: Accounts.showSignup },
     { method: 'GET', path: '/login', config: Accounts.showLogin },
+    { method: 'GET', path: '/loginAdmin', config: Accounts.showLoginAdmin },
     { method: 'GET', path: '/logout', config: Accounts.logout },
     { method: 'GET', path: '/addPoint', config: Points.point },
     { method: 'POST', path: '/signup', config: Accounts.signup },
-    { method: 'POST', path: '/login', config: Accounts.login },
+    { method: 'POST', path: '/login', config: Accounts.loginUser },
+    { method: 'POST', path: '/loginAdmin', config: Accounts.loginAdmin },
     { method: 'POST', path: '/addPoint', config: Points.addPoint },
     { method: 'GET', path: '/settings', config: Accounts.showSettings },
-    { method: 'POST', path: '/settings', config: Accounts.updateSettings }
+    { method: 'POST', path: '/settings', config: Accounts.updateSettings },
+    { method: 'GET', path: '/pointDelete/{id}', config: Points.pointDelete },
+    { method: 'POST', path: '/pointEdit', config: Points.updatePoint },
+    { method: 'GET', path: '/testHelp', config: Points.testHelp},
+    { method: 'GET', path: '/pointEdit', config: Points.viewEditPoint},
+    { method: 'GET', path: '/pointView/{id}', config: Points.showPoint}
 ];
 
 //  { method: 'GET', path: '/', config: Controller.index},

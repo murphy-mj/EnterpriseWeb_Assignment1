@@ -1,24 +1,26 @@
 'use strict';
+const dotenv = require('dotenv');
+const result = dotenv.config();
+
+if (result.error) {
+    console.log(result.error.message);
+    process.exit(1);
+}
 
 const Hapi = require('hapi');
-
-const server = Hapi.server({
-    port: process.env.PORT||3000,
-});
-
+    require('./app/models/db');
 
 //const server = Hapi.server({
-//    port: 3000,
-//    host: 'localhost'
+//    port: process.env.PORT||3000,
 // });
 
 
-//   points: [],
+const server = Hapi.server({
+    port: 3000,
+    host: 'localhost'
+ });
 
-server.bind({
-});
 
-require('./app/models/db');
 
 async function init() {
     await server.register(require('inert'));
@@ -33,6 +35,7 @@ async function init() {
         path: './app/views',
         layoutPath: './app/views/layouts',
         partialsPath: './app/views/partials',
+        helpersPath: './app/views/helpers',
         layout: true,
         isCached: false,
     });
@@ -47,6 +50,7 @@ async function init() {
 
     server.auth.default({
         mode: 'required',
+//        mode: 'try',
         strategy: 'standard'
     });
 
@@ -55,10 +59,10 @@ async function init() {
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);
 }
-
 process.on('unhandledRejection', err => {
     console.log(err);
     process.exit(1);
 });
+
 
 init();

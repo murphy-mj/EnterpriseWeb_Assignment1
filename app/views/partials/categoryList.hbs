@@ -1,29 +1,41 @@
 <section class="ui raised segment">
     <div class="ui grid">
         <aside class="six wide column">
+            <div class="ui sticky">
             <img src="images/homer5.jpg" class="ui medium image">
+            </div>
         </aside>
         <article class="eight wide column">
             <table class="ui celled table segment">
                 <thead>
-                <tr>
-                    <th>Point of Int</th>
-                    <th>Description</th>
-                    <th>mongo obj id</th>
-                </tr>
+                <tr><p>Points of Interest are sorted by Category for your convenience.
+                    To see more information on the Point of interest, please select view</p></tr>
                 </thead>
                 <tbody>
-                {{#each groupCat}}
-                    <tr><td>{{ this.[0].category}}</td></tr>
+                <div class="ui left close rail">
+                 <div>
+                  {{#each groupCat}}
+                  {{!-- as each object in the collection share same category, hence we can use the first object cat name--}}
+                    <tr><td><b>{{ this.[0].category}}</b></td></tr>
+                    <tr><<td>Name</td><td>Description</td></tr>
                     {{#each this}}
                         <tr>
                         <td>{{ this.name }}</td>
                         <td> {{this.description}} </td>
                         <td> {{this._id}} </td>
+                            {{#formatSelect ../../PID}}
+                                <td><a href="/pointView/{{../_id}}" ><i><b>View</b></i></a></td>
+                            {{else}}
+                                <td><a href="/pointView/{{../_id}}" ><i><b>View</b></i></a> </td>
+                                <td><a href="/pointEdit?id={{../_id}}" ><i> Edit</i></a> </td>
+                                <td><a href="/pointDelete/{{../_id}}" ><i> Delete</i></a> </td>
+                            {{/formatSelect}}
                         </tr>
+                  {{!--just using different methods to transfer the id ? and /--}}
                     {{/each}}
-                {{/each}}
-
+                  {{/each}}
+                </div>
+                </div>
                 </tbody>
             </table>
         </article>
