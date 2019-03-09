@@ -1,5 +1,4 @@
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script type="text/javascript">
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (p) {
         var LatLng = new google.maps.LatLng(p.coords.latitude, p.coords.longitude);
@@ -22,7 +21,4 @@ if (navigator.geolocation) {
     });
 } else {
     alert('Geo Location feature is not supported in this browser.');
-}
-</script>
-<div id="dvMap" style="width: 500px; height: 500px">
-    </div>
+};
