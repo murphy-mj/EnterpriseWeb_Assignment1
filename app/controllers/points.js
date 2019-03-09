@@ -14,17 +14,20 @@ const Points = {
     },
     signup: {
         handler: function (request, h) {
-            return h.view('signup', {title: 'Sign up for Points of Interest'});
+            const id = request.auth.credentials.id;
+            return h.view('signup', {title: 'Sign up for Points of Interest',PID:id});
         }
     },
     login: {
         handler: function (request, h) {
-            return h.view('login', {title: 'Login to Points of interest'});
+            const id = request.auth.credentials.id;
+            return h.view('login', {title: 'Login to Points of interest',PID:id});
         }
     },
 
     home: {
         handler: async function(request, h) {
+            const id = request.auth.credentials.id;
             // extract a list of the various categories,
             // for each category, create an object that holds all the point of interest for that category
             // add that object to an array,
@@ -35,21 +38,41 @@ const Points = {
                 const catColl = await Poi.find(qury);
                 holderAr.push(catColl);
             }
-            return h.view('home', { title: 'is this home',groupCat:holderAr});
+            return h.view('home', { title: 'is this home',groupCat:holderAr,PID:id});
         },
     },
+
+    homeAdmin: {
+        handler: async function (request, h) {
+            const id = request.auth.credentials.id;
+            // extract a list of the various categories,
+            // for each category, create an object that holds all the point of interest for that category
+            // add that object to an array,
+            const CatList = await Poi.distinct("category");
+            const holderAr = [];
+            for (let i = 0; i < CatList.length; i++) {
+                const qury = {category: CatList[i].toString()};
+                const catColl = await Poi.find(qury);
+                holderAr.push(catColl);
+            }
+            return h.view('homeAdmin', {title: 'is this home', groupCat: holderAr,PID:id});
+        }
+    },
+
 
 
     report: {
         handler: async function(request, h) {
+            const id = request.auth.credentials.id;
             const pois = await Poi.find();
-            return h.view('report', { title: 'Points so far',pois: pois});
+            return h.view('report', { title: 'Points so far',pois: pois,PID:id});
         }
    },
 
     addPoint: {
         auth:false,
         handler: async function(request, h) {
+            const id = request.auth.credentials.id;
             const payload = request.payload;
             console.log(request.payload);
             let x = request.payload.longitude;
@@ -64,15 +87,16 @@ const Points = {
                 location: location
             });
             const poi = await newPoi.save();
-            return h.redirect('/report');
+            return h.redirect('/report',{PID:id});
         }
     },
 
     point: {
-        auth:false,
+       // auth:false,
         handler: async function(request, h) {
+            const id = request.auth.credentials.id;
             //const pois = await Poi.find();
-            return h.view('point', { title: 'Time to add a point from point'});
+            return h.view('point', { title: 'Time to add a point from point',PID:id});
         }
     },
 
@@ -104,7 +128,7 @@ const Points = {
     updatePoint: {
         //auth:false,
         handler: async function(request, h) {
-
+            const pid = request.auth.credentials.id;
 
             try {
                 const payload = request.payload;
@@ -128,13 +152,14 @@ const Points = {
                 }
                 return h.redirect('/report');
             } catch (err) {
-                return h.view('main', { errors: [{ message: err.message }] });
+                return h.view('main', { errors: [{ message: err.message }],PID:pid });
             }
         }
     },
 
     pointDelete: {
       handler: async function(request, h) {
+              const pid = request.auth.credentials.id;
               // const pois = await Poi.find();
               let id = request.params.id;
               console.log(id +"is the id from the Delete Point");
@@ -148,7 +173,7 @@ const Points = {
            //  } catch (err) {
             //      return h.view('home',{title:"poi removed - error"});
             //  }
-              return h.view('home',{title:"poi removed"});
+              return h.view('home',{title:"poi removed",PID:pid});
       }
      },
 
@@ -157,6 +182,7 @@ const Points = {
     showPoint: {
         //auth:false,
         handler: async function(request, h) {
+            const pid = request.auth.credentials.id;
             console.log("from show Point");
             let id = request.params.id;
             let o_id = new ObjectId(id);
@@ -165,13 +191,14 @@ const Points = {
             let p2 ={};
             p2 = pointt[0];
             console.log("data being passed to pointView" +p2);
-            return h.view('pointView', { title: 'Time to view the point',pointt: p2});
+            return h.view('pointView', { title: 'Time to view the point',pointt: p2,PID:pid});
         }
     },
 
     viewEditPoint: {
         auth:false,
         handler: async function (request, h) {
+            const pid = request.auth.credentials.id;
             var id = request.query.id;
             console.log(id +" is the id from View Edit Point ag");
             var o_id = new ObjectId(id);
@@ -180,13 +207,14 @@ const Points = {
             var p2 ={};
             p2 = pointt[0];
            // console.log(p2);
-            return h.view('pointEdit', { title: 'Time to view a point from View Edit POint',poi: p2});
+            return h.view('pointEdit', { title: 'Time to view a point from View Edit POint',poi: p2,PID:pid});
         }
     },
 
     testHelp: {
         auth:false,
         handler: async function (request, h) {
+            const pid = request.auth.credentials.id;
             const CatList = await Poi.distinct("category");
            // const holderAr = [];
             for (let i = 0; i < CatList.length; i++) {
@@ -199,11 +227,12 @@ const Points = {
 
             console.log("from testHelp");
           // console.log(holderAr);
-            return h.view('TestingHelp', {title: 'view testing help', states: CatList});
+            return h.view('TestingHelp', {title: 'view testing help', states: CatList,PID:pid});
         },
     },
     testHelp2: {
         handler: async function (request, h) {
+            const pid = request.auth.credentials.id;
             const CatList = await Poi.distinct("category");
             const holderAr = [];
             for (let i = 0; i < CatList.length; i++) {
@@ -216,7 +245,7 @@ const Points = {
 
             console.log("from show points")
             console.log(holderAr);
-            return h.view('TestingHelp', {title: 'view Points', groupCat: holderAr});
+            return h.view('TestingHelp', {title: 'view Points', groupCat: holderAr,PID:id});
         },
     }
 

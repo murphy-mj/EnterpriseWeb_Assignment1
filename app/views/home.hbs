@@ -1,17 +1,29 @@
 <nav class="ui inverted menu">
-    <header class="header item"><a href="/"> {{title}} </a></header>
+    <header class="header item"> <a href="/"> Welcome to the Points of Interest </a> </header>
+
     <div class="right menu">
-        <a class="active item" href="/home"> Home</a>
-        <a class="item" href="/report"> View Points</a>
-        <a class="item" href="/logout"> Logout</a>
-        <a class="item" href="/addPoint"> Add new POI</a>
-        <a class="item" href="/editpoint"> Edit POI</a>
-        <a class="item" href="/testHelp"> Test helper</a>
+
+        {{#formatSelectMenu  this.PID}}
+            <a class="item" href="/homeAdmim"> Admin Home</a>
+            <a class="item" href="/report"> Admin View Points</a>
+            <a class="item" href="/addPoint">Admin Add new Point</a>
+            <a class="item" href="/settings"> Admin settings</a>
+            <a class="item" href="/logout">  Admin Logout</a>
+
+        {{else}}
+            <a class="item" href="/home"> Home</a>
+            <a class="item" href="/report"> View Points</a>
+            <a class="item" href="/addPoint">  Add new Point</a>
+            <a class="item" href="/settings"> settings</a>
+            <a class="item" href="/logout">  Logout</a>
+
+        {{/formatSelectMenu}}
 
     </div>
+
 </nav>
 
-<section class="ui raised segment">
 
-
-</section>
+<script>
+    $("#{{_id}}").addClass("active item");
+</script>

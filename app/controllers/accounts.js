@@ -5,20 +5,22 @@ const Poi = require('../models/poi');
 const db = require('../models/db');
 const Boom = require('boom');
 const ObjectId = require('mongodb').ObjectId;
+const Joi = require('joi')
 
 const Accounts = {
 
 
     index: {
         auth:false,
-        handler: function(request, h) {
-            return h.view('main', { title: 'Welcome to Points of Interest' });
+        handler: function(request, h){
+            return h.view('main', { title: 'Welcome to Points of Interest'});
         }
     },
 
     showSignup: {
         auth:false,
         handler: function(request, h) {
+            //const id = request.auth.credentials.id;
             return h.view('signup', { title: 'Sign up for Points of Interest' });
         }
     },
@@ -37,15 +39,34 @@ const Accounts = {
                 const admin = await newUser.save();
                 console.log(admin._id +" admin Id");
                 request.cookieAuth.set({id: admin._id});
-                return h.redirect('/home');
+                return h.redirect('/homeAdmin');
             } catch(err){
-                return h.view('login', { errors: [{ message: err.message }] });
+                return h.view('loginAdmin', { errors: [{ message: err.message }] });
             }
         }
     },
 
     signup: {
         auth:false,
+        validate: {
+            payload: {
+                firstName: Joi.string().required(),
+                lastName: Joi.string().required(),
+                email: Joi.string().email().required(),
+                password: Joi.string().required().min(4)
+            },
+            options: {
+                abortEarly: false
+            },
+            failAction: function(request, h, error) {
+                return h.view('signup', {
+                        title: 'Update settings error, all fields are required.',
+                        errors: error.details
+                    })
+                    .takeover()
+                    .code(400);
+            }
+        },
         handler: async function(request, h) {
             try {
                 const payload = request.payload;
@@ -60,7 +81,7 @@ const Accounts = {
                 request.cookieAuth.set({id: user._id});
                 return h.redirect('/home');
             } catch(err){
-                return h.view('login', { errors: [{ message: err.message }] });
+                return h.view('signup', { errors: [{ message: err.message }] });
             }
         }
     },
@@ -122,7 +143,7 @@ const Accounts = {
                // request.cookieAuth.set({id: user._id});
               //  console.log(user._id + " pass work ok");
                 //console.log(request.auth.credentials.id + " credential id");
-                return h.redirect('/settings');
+                return h.redirect('/home',{PID : user._id});
 
               } catch (err) {
                 return h.view('signup', {errors: [{message: err.message}]});
@@ -150,7 +171,7 @@ const Accounts = {
               admin.comparePassword(password);
               request.cookieAuth.set({id: admin._id});
               console.log(admin._id + " Admin pass word ok");
-              return h.redirect('/home');
+              return h.redirect('/home',{PID:admin._id});
 
                 //let user = await User.findByEmail(email);
                 //if(user){
@@ -200,14 +221,16 @@ const Accounts = {
            // let donorEmail = request.auth.credentials.id;
             const user = await User.findById(id);
             const admin = await AdminA.findById(id);
-            if(user) {
-                return h.view('settings', {title: 'User Settings', user: user});
-            }
-            if(admin){
-                return h.view('settings', {title: 'Admin Settings', user: admin});
-            }
             console.log(user +" user");
             console.log(admin +" admin");
+            console.log(id +" id")
+            if(user) {
+                return h.view('settings', {title: 'User Settings', user: user,PID: id});
+            }
+            if(admin){
+                return h.view('settings', {title: 'Admin Settings', user: admin,PID: id});
+            }
+
            // console.log(donorEmail);
             //const userDetails ={};
             //const userDetails = User[donorEmail];
@@ -243,10 +266,10 @@ const Accounts = {
                     await admin.save();
                 }
 
-                return h.redirect('/home');
+                return h.redirect('/home',{PID:id});
             } catch (err) {
                 console.log(err);
-                return h.view('main', { errors: [{ message: err.message }] });
+                return h.view('main', { errors: [{ message: err.message }],PID:id });
             }
         }
     }
