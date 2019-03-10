@@ -1,5 +1,5 @@
 'use strict';
-const cloudinary = require('cloudinary');
+//const cloudinary = require('cloudinary');
 const ImageStore = require('../utils/image-store');
 
 
@@ -41,6 +41,7 @@ const Gallery = {
     deleteImage: {
         handler: async function(request, h) {
             ImageStore.deleteImage(request.params.id);
+
             return h.redirect('/cloud');
         }
 
@@ -51,7 +52,8 @@ const Gallery = {
         handler: async function(request, h) {
             const file = request.payload.imagefile;
             if (Object.keys(file).length > 0) {
-                await ImageStore.uploadImage(request.payload.imagefile);
+                let rsly =  await ImageStore.uploadImage(request.payload.imagefile);
+                console.log(rsly);
                 return h.redirect('/');
             }
             return h.view('gallery', {

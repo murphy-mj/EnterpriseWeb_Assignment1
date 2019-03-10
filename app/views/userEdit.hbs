@@ -1,0 +1,46 @@
+<nav class="ui inverted menu">
+    <header class="header item"> <a href="/"> Lets add a new Item </a> </header>
+    <div class="right menu">
+        <a class="item" href="/home"> Admin Home</a>
+        <a class="item" href="/report"> Admin View Points</a>
+        <a class="item" href="/addPoint">Admin Add new Point</a>
+        <a class="item" href="/cloud">  Gallery</a>
+        <a class="item" href="/settings"> Admin settings</a>
+        <a class="item" href="/logout">  Admin Logout</a>
+    </div>
+</nav>
+
+<section class="ui raised segment">
+    <div class="ui grid">
+        <div class="ui ten wide column">
+            <div class="ui stacked fluid form segment">
+                <form action="/userEdit" method="POST">
+                    <h3 class="ui header">{{title}}</h3>
+                    <div class="two fields">
+                        <div class="field">
+                            <label>First Name</label>
+                            <input value="{{userr.firstName}}" type="text" name="firstName">
+                        </div>
+                        <div class="field">
+                            <label>Last Name</label>
+                            <input value="{{userr.lastName}}" type="text" name="lastName">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Email</label>
+                        <input value="{{userr.email}}" type="text" name="email">
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <input value="{{userr.password}}" type="password" name="password">
+                    </div>
+                    <button class="ui blue submit button">Save</button>
+                </form>
+            </div>
+            </div>
+        </div>
+        <aside class="ui five wide column">
+            <img src="images/homer3.png" class="ui medium image">
+        </aside>
+    </div>
+    </section>

@@ -1,0 +1,30 @@
+<section class="ui raised segment">
+    <div class="ui grid">
+        <aside class="six wide column">
+            <div class="ui sticky">
+                <img src="images/homer5.jpg" class="ui medium image">
+            </div>
+        </aside>
+        <article class="eight wide column">
+            <table class="ui celled table segment">
+                <thead>
+                <tr><p> View all users for possible update or deletion</p></tr>
+                </thead>
+                <tbody>
+                <div class="ui left close rail">
+                    <div>
+                        {{#each userr}}
+                                    <td>{{ this.firstName }}</td>
+                                    <td> {{this.lastName}} </td>
+                                    <td> {{this._id}} </td>
+                                    <td><a href="/userEdit?id={{_id}}" ><i> Edit</i></a> </td>
+                                    <td><a href="/userDelete/{{_id}}" ><i> Delete</i></a> </td>
+                                </tr>
+                        {{/each}}
+                    </div>
+                </div>
+                </tbody>
+            </table>
+        </article>
+    </div>
+</section>

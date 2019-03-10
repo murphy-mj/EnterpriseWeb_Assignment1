@@ -16,7 +16,7 @@ cloudinary.config({
 const ImageStore = {
     configure: function(cloudinaryConfig) {
         const credentials = {
-            cloud_name: cloudinaryConfig.cloud_name,
+            cloud_name: cloudinaryconfig.cloud_name,
             api_key: cloudinaryConfig.api_key,
             api_secret: cloudinaryConfig.api_secret
         };
@@ -33,19 +33,14 @@ const ImageStore = {
 
 
     deleteImage: async function(id) {
-
         await cloudinary.v2.uploader.destroy(id, {});
-
     },
 
 
 
     uploadImage: async function(imagefile) {
-
         await writeFile('./public/temp.img', imagefile);
-
-        await cloudinary.uploader.upload('./public/temp.img');
-
+        await cloudinary.v2.uploader.upload('./public/temp.img');
     }
 
 };

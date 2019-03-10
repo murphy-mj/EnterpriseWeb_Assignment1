@@ -272,7 +272,80 @@ const Accounts = {
                 return h.view('main', { errors: [{ message: err.message }],PID:id });
             }
         }
+    },
+
+
+    updateUser: {
+        handler: async function(request, h) {
+            try {
+                const pid = request.auth.credentials.id;
+                const userEdit = request.payload;
+                let user = await  User.findByEmail(userEdit.email);
+                //console.log(userEdit.firstName + " userEdit");
+                //const id = person._id;
+                //console.log(id + " Id  in update user")
+                //const user = await User.findById(id);
+
+                console.log(user +" user update settings");
+
+                user.firstName = userEdit.firstName;
+                user.lastName = userEdit.lastName;
+                user.email = userEdit.email;
+                user.password = userEdit.password;
+                await user.save();
+                return h.redirect('/home',{PID:pid});
+            } catch (err) {
+                console.log(err);
+                return h.view('main', { errors: [{ message: err.message }],PID:id });
+            }
+        }
+    },
+    viewEditUser: {
+        auth:false,
+        handler: async function (request, h) {
+            const pid = 1;
+                //request.auth.credentials.id;
+            var id = request.query.id;
+            console.log(id +" is the id from View Edit User ag");
+            var o_id = new ObjectId(id);
+            const pointt = await User.find({_id : o_id});
+            // console.log(pointt);
+            var p2 ={};
+            p2 = pointt[0];
+            // console.log(p2);
+            return h.view('userEdit', { title: 'Time to view a User Edit from View Edit User',userr: p2,PID:pid});
+        }
+    },
+    showUsers: {
+        auth:false,
+        handler: async function(request, h){
+                const pointt = await User.find();
+                return h.view('userView', { title: 'Time to view a User View',userr: pointt})
+        }
+    },
+    userDelete: {
+        handler: async function(request, h) {
+            const pid = request.auth.credentials.id;
+            // const pois = await Poi.find();
+            let id = request.params.id;
+            console.log(id +"is the id from the Delete user");
+            let pdid = new ObjectId(id);
+            let poitodel = await User.find({_id : pdid});
+            console.log(poitodel +"is the pt from the Delete User");
+            try{
+               await poitodelete.delete();
+               //await Poi.Delete(id);
+               // return h.response(result);
+            } catch (err){
+                return h.view('home',{title:"poi removed - error"});
+              }
+            return h.view('home',{title:"User removed",PID:pid});
+        }
     }
+
+
+
+
 
 };
 
