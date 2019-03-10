@@ -11,7 +11,7 @@ const Accounts = {
 
 
     index: {
-        auth:false,
+        //auth:false,
         handler: function(request, h){
             return h.view('main', { title: 'Welcome to Points of Interest'});
         }
