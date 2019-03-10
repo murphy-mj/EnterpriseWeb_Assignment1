@@ -14,6 +14,7 @@ module.exports = [
     { method: 'GET', path: '/addPoint', config: Points.point },
     { method: 'POST', path: '/signup', config: Accounts.signup },
     { method: 'POST', path: '/signupAdmin', config: Accounts.signupAdmin },
+    { method: 'GET', path: '/signupAdmin', config: Accounts.showAdminSignup },
     { method: 'POST', path: '/login', config: Accounts.loginUser },
     { method: 'POST', path: '/loginAdmin', config: Accounts.loginAdmin },
     { method: 'POST', path: '/addPoint', config: Points.addPoint },
@@ -33,7 +34,3 @@ module.exports = [
     { method: 'POST', path: '/uploadfile', config: Gallery.uploadFile },
     { method: 'GET', path: '/deleteimage/{id}', config: Gallery.deleteImage }
 ];
-
-//  { method: 'GET', path: '/', config: Controller.index},
-//     { method: 'GET', path: '/', config: Points.index },
-//    { method: 'GET', path: '/report', config: Points.report },

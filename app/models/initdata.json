@@ -6,16 +6,51 @@
       "lastName": "Simpson",
       "email": "homer@simpson.com",
       "password": "secret"
+    },
+    "murphy": {
+      "firstName": "Martin",
+      "lastName": "Murphy",
+      "email": "homer@simpson.com",
+      "password": "secret"
+    },
+    "moon": {
+      "firstName": "Keith",
+      "lastName": "Moon",
+      "email": "keith@moon.com",
+      "password": "secret"
+    },
+    "lennon": {
+      "firstName": "John",
+      "lastName": "Lennon",
+      "email": "lennon@beatle.com",
+      "password": "secret"
+    },
+    "mccarthy": {
+      "firstName": "Paul",
+      "lastName": "McCarthy",
+      "email": "mccarthy@beatle.com",
+      "password": "secret"
+    },
+    "starr": {
+      "firstName": "Ringo",
+      "lastName": "Starr",
+      "email": "starr@beatle.com",
+      "password": "secret"
     }
   },
   "admin": {
     "_model": "AdminA",
-    "staff": {
+    "stone": {
       "firstName": "Janis",
       "lastName": "Stone",
       "email": "janis@stone.com",
       "password": "secret"
-
+    },
+    "page": {
+      "firstName": "Jimmy",
+      "lastName": "Page",
+      "email": "page@zep.com",
+      "password": "secret"
     }
   }
 }

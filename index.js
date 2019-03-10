@@ -55,15 +55,15 @@ async function init() {
 
     server.auth.default({
         mode: 'required',
-//        mode: 'try',
         strategy: 'standard'
     });
-
 
     server.route(require('./routes'));
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);
 }
+
+
 process.on('unhandledRejection', err => {
     console.log(err);
     process.exit(1);

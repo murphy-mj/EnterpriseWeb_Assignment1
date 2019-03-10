@@ -24,7 +24,7 @@ module.exports = (PID,options)=> {
         console.log(options.inverse(this) + "User person")
     }
 
-    if((user === 'undefined') | (user === null) | (per === 1)){
+    if((user === 'undefined') | (user === null) | (per === 1) |(PID === 1)){
         // the logged in peron is an Admin and so should not have access to edit or delete options
         return options.fn(this);
     } else {

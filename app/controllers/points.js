@@ -12,18 +12,19 @@ const Points = {
             return h.view('main', {title: 'Welcome to Points of Interest'});
         }
     },
-    signup: {
-        handler: function (request, h) {
-            const id = request.auth.credentials.id;
-            return h.view('signup', {title: 'Sign up for Points of Interest',PID:id});
-        }
-    },
-    login: {
-        handler: function (request, h) {
-            const id = request.auth.credentials.id;
-            return h.view('login', {title: 'Login to Points of interest',PID:id});
-        }
-    },
+  //  signup: {
+  //      handler: function (request, h) {
+  //          const id = request.auth.credentials.id;
+  //          return h.view('signup', {title: 'Sign up for Points of Interest',PID:id});
+   //     }
+   // },
+
+  //  login: {
+  //      handler: function (request, h) {
+  //          const id = request.auth.credentials.id;
+  //          return h.view('login', {title: 'Login to Points of interest',PID:id});
+   //     }
+  //  },
 
     home: {
         handler: async function(request, h) {
@@ -38,10 +39,10 @@ const Points = {
                 const catColl = await Poi.find(qury);
                 holderAr.push(catColl);
             }
-            return h.view('home', { title: 'is this home',groupCat:holderAr,PID:id});
+            return h.view('home', { title: 'Welcome to the home page',groupCat:holderAr,PID:id});
         },
     },
-
+// not used
     homeAdmin: {
         handler: async function (request, h) {
             const id = request.auth.credentials.id;
@@ -68,9 +69,9 @@ const Points = {
             return h.view('report', { title: 'Points so far',pois: pois,PID:id});
         }
    },
-
+// adding a point of interest
     addPoint: {
-        auth:false,
+       // auth:false,
         handler: async function(request, h) {
             const id = request.auth.credentials.id;
             const payload = request.payload;
@@ -87,7 +88,7 @@ const Points = {
                 location: location
             });
             const poi = await newPoi.save();
-            return h.redirect('/report',{PID:id});
+            return h.redirect('/report',{title:"Point of interest successfully added",PID:id});
         }
     },
 
@@ -95,10 +96,11 @@ const Points = {
        // auth:false,
         handler: async function(request, h) {
             const id = request.auth.credentials.id;
-            //const pois = await Poi.find();
-            return h.view('point', { title: 'Time to add a point from point',PID:id});
+            return h.view('point', { title: 'Lets add a point of interest',PID:id});
         }
     },
+// view all points by category
+// creating an array, each object is a collection of points of interest that have the same category
 
     showPoints: {
         //auth:false,
@@ -125,6 +127,7 @@ const Points = {
         },
     },
 
+// both Adin and User can update a point of interest
     updatePoint: {
         //auth:false,
         handler: async function(request, h) {
@@ -132,16 +135,17 @@ const Points = {
 
             try {
                 const payload = request.payload;
+                //const pois = await Poi.find();
 
-                const pois = await Poi.find();
                 const payl = request.payload;
-                console.log(payl.idd);
                 const id = payl.idd;
                 var o_id = new ObjectId(id);
                 var ptEditAr = await Poi.find({_id : o_id});
                 var ptEdit = ptEditAr[0];
+
                 console.log(ptEdit);
                 console.log(payl.name);
+                // ptEdit is the POI that is being updated bt data from the form
                 if(ptEdit) {
                     ptEdit.name = payl.name;
                     ptEdit.category = payl.category;
@@ -150,30 +154,32 @@ const Points = {
                     ptEdit.location = payl.location;
                     await ptEdit.save();
                 }
-                return h.redirect('/report');
+                return h.redirect('/report',{title:"Point of Interest updated successfully ",PID:pid});
             } catch (err) {
-                return h.view('main', { errors: [{ message: err.message }],PID:pid });
+                return h.view('report', { errors: [{ message: err.message }],PID:pid });
             }
         }
     },
 
+    // removing by an Admin person, a point of Interest
     pointDelete: {
       handler: async function(request, h) {
               const pid = request.auth.credentials.id;
               // const pois = await Poi.find();
               let id = request.params.id;
-              console.log(id +"is the id from the Delete Point");
-              let pdid = new ObjectId(id);
-              let poitodel = await Poi.find({_id : pdid});
-              console.log(poitodel +"is the pt from the Delete Point");
-             // try{
-               // await Poi.delete({_id: id});
-               //   await Poi.Delete(id);
-               // return h.response(result);
-           //  } catch (err) {
-            //      return h.view('home',{title:"poi removed - error"});
-            //  }
-              return h.view('home',{title:"poi removed",PID:pid});
+              let poitodel =  await Poi.findById(id);
+
+              //let pdid = new ObjectId(id);
+              //let poitodel = await Poi.find({_id : pdid});
+              //console.log(poitodel +"is the pt from the Delete Point");
+              // delete does not work on this object
+          try{
+                await poitodel.delete({_id: id});
+                return h.response(result);
+              } catch (err) {
+                   return h.view('home',{title:"poi removal - error"});
+              }
+              return h.view('home',{title:"poi successfully removed",PID:pid});
       }
      },
 
@@ -183,15 +189,15 @@ const Points = {
         //auth:false,
         handler: async function(request, h) {
             const pid = request.auth.credentials.id;
-            console.log("from show Point");
             let id = request.params.id;
+
             let o_id = new ObjectId(id);
             let pointt = await Poi.find({_id : o_id});
-            //console.log(pointt);
+            // returns an array
+
             let p2 ={};
             p2 = pointt[0];
-            console.log("data being passed to pointView" +p2);
-            return h.view('pointView', { title: 'Time to view the point',pointt: p2,PID:pid});
+            return h.view('pointView', { title: 'View point in detail',pointt: p2,PID:pid});
         }
     },
 

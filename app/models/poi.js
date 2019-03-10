@@ -16,6 +16,4 @@ poiSchema.statics.findByName = function(name) {
 };
 
 
-
-
 module.exports = Mongoose.model('Poi', poiSchema);

@@ -3,6 +3,7 @@ const Boom = require('boom');
 const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
 
+
 const adminSchema = new Schema({
     firstName: String,
     lastName: String,
@@ -14,7 +15,6 @@ const adminSchema = new Schema({
 adminSchema.statics.findByEmail = function(email) {
     return this.findOne({ email : email});
 };
-
 
 
 

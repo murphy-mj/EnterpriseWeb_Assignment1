@@ -1,20 +1,22 @@
 <nav class="ui inverted menu">
-    <header class="header item"> <a href="/"> Welcome to the Points of Interest </a> </header>
+    <header class="header item"> Menu </header>
     <div class="right menu">
     {{#formatSelectMenu  ../PID}}
-        <a class="item" href="/home"> Admin Home</a>
-        <a class="item" href="/report"> Admin View Points</a>
-        <a class="item" href="/addPoint">Admin Add new Point</a>
-        <a class="item" href="/cloud">  Gallery</a>
-        <a class="item" href="/settings"> Admin settings</a>
-        <a class="item" href="/logout">  Admin Logout</a>
+        a class="item" href="/home"> Home</a>
+        <a class="item" href="/report">View Points</a>
+        <a class="item" href="/addPoint">Add new Point</a>
+        <a class="item" href="/cloud"> Gallery</a>
+        <a class="item" href="/settings">Settings</a>
+        <a class="item" href="/signupAdmin"> Admin Signup</a>
+        <a class="item" href="/userView"> User Listings</a>
+        <a class="item" href="/logout">Logout</a>
     {{else}}
         <a class="item" href="/home"> Home</a>
         <a class="item" href="/report"> View Points</a>
-        <a class="item" href="/addPoint">  Add new Point</a>
-        <a class="item" href="/cloud">  Gallery</a>
-        <a class="item" href="/settings"> settings</a>
-        <a class="item" href="/logout">  Logout</a>
+        <a class="item" href="/addPoint"> Add new Point</a>
+        <a class="item" href="/cloud"> Gallery</a>
+        <a class="item" href="/settings">Settings</a>
+        <a class="item" href="/logout"> Logout</a>
     {{/formatSelectMenu}}
     </div>
 </nav>
