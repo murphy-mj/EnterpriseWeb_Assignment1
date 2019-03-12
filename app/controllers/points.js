@@ -7,11 +7,11 @@ const ObjectId = require('mongodb').ObjectId;
 const Points = {
 
 
-    index: {
-        handler: function (request, h) {
-            return h.view('main', {title: 'Welcome to Points of Interest'});
-        }
-    },
+  //  index: {
+   //     handler: function (request, h) {
+   //         return h.view('main', {title: 'Welcome to Points of Interest'});
+   //     }
+  //  },
   //  signup: {
   //      handler: function (request, h) {
   //          const id = request.auth.credentials.id;
