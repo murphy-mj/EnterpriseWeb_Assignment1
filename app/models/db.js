@@ -20,9 +20,10 @@ db.on('disconnected', function() {
 async function seed() {
     const seeder = require('mais-mongoose-seeder')(Mongoose);
     const data = require('./initdata.json');
-    const AdminA = require('./admin.js');
-    const User = require('./user.js');
+  // 13. 03  const AdminA = require('./admin.js');
+  // 13.03   const User = require('./user.js');
     const dbData = await seeder.seed(data, { dropDatabase: false, dropCollections: true });
+    console.log("seed function")
     console.log(dbData);
 }
 

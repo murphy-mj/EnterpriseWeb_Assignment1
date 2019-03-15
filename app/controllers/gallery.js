@@ -9,6 +9,7 @@ const Gallery = {
 
     index: {
         handler: async function(request, h) {
+            console.log("gallery  Index");
             let allImages = [];
             let errorMessage = '';
             try {

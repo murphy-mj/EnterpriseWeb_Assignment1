@@ -8,18 +8,18 @@ if (result.error) {
 }
 
 const Hapi = require('hapi');
-    require('./app/models/db');
-
-const server = Hapi.server({
-    port: process.env.PORT||3000,
- });
-
-
+require('./app/models/db');
 
 //const server = Hapi.server({
-//    port: 3000,
-//    host: 'localhost'
+//    port: process.env.PORT||3050,
 // });
+
+
+
+const server = Hapi.server({
+    port: 3050,
+    host: 'localhost'
+ });
 
 server.bind({
     cloudinaryCredentials: {}

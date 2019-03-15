@@ -1,3 +1,4 @@
+'use strict'
 const Accounts = require('./app/controllers/accounts.js');
 const Points = require('./app/controllers/points');
 const Gallery = require('./app/controllers/gallery');
@@ -6,7 +7,7 @@ module.exports = [
     { method: 'GET', path: '/home', config: Points.home },
     { method: 'GET', path: '/homeAdmin', config: Points.homeAdmin},
     { method: 'GET', path: '/report', config: Points.showPoints },
-    { method: 'GET', path: '/', config: Accounts.index },
+    {method: 'GET', path: '/', config: Accounts.index},
     { method: 'GET', path: '/signup', config: Accounts.showSignup },
     { method: 'GET', path: '/login', config: Accounts.showLogin },
     { method: 'GET', path: '/loginAdmin', config: Accounts.showLoginAdmin },

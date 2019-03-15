@@ -4,15 +4,18 @@ const AdminA = require('../models/admin');
 const Poi = require('../models/poi');
 const db = require('../models/db');
 const Boom = require('boom');
-const ObjectId = require('mongodb').ObjectId;
+
+// 13.03.2019 error const ObjectId = require('mongodb').ObjectId;
+const ObjectId = require('mongoose').Types.ObjectId;
 const Joi = require('joi')
 
 const Accounts = {
 
 
     index: {
-        //auth:false,
+        auth:false,
         handler: function(request, h){
+            console.log("Accounts index");
             return h.view('main', { title: 'Welcome to Points of Interest'});
         }
     },
@@ -21,6 +24,7 @@ const Accounts = {
     showSignup: {
         auth:false,
         handler: function(request, h) {
+            console.log("Accounts show sign up");
             return h.view('signup', { title: 'Sign up for Points of Interest App' });
         }
     },
@@ -28,7 +32,9 @@ const Accounts = {
     showAdminSignup: {
         auth:false,
         handler: function(request, h) {
-            return h.view('signupAdmin', { title: 'Sign up for new Admin person',PID:1});
+            console.log("Accounts showAdminSgn up");
+            // 13.03       return h.view('signupAdmin', { title: 'Sign up for new Admin person',PID:1})
+            return h.view('signupAdmin', { title: 'Sign up for new Admin person'})
         }
     },
 
@@ -37,6 +43,7 @@ const Accounts = {
     signupAdmin: {
         auth:false,
         handler: async function(request, h) {
+            console.log("Accounts signupAdmin");
             try {
                 const payload = request.payload;
                 const newUser = new AdminA({
@@ -69,14 +76,15 @@ const Accounts = {
             },
             failAction: function(request, h, error) {
                 return h.view('signup', {
-                        title: 'Update settings error, all fields are required.',
-                        errors: error.details
-                    })
+                    title: 'Update settings error, all fields are required.',
+                    errors: error.details
+                })
                     .takeover()
                     .code(400);
             }
         },
         handler: async function(request, h) {
+            console.log("Accounts sign up");
             try {
                 const payload = request.payload;
                 const newUser = new User({
@@ -100,6 +108,7 @@ const Accounts = {
     showLogin: {
         auth: false,
         handler: function (request, h) {
+            console.log("Accounts show login");
             return h.view('login', {title: 'Login to Points of Interest'});
         }
     },
@@ -107,7 +116,8 @@ const Accounts = {
     showLoginAdmin: {
         auth:false,
         handler: function(request, h) {
-        return h.view('loginAdmin', { title: 'Welcome Admin' });
+            console.log("Accounts show loginAdmin");
+            return h.view('loginAdmin', { title: 'Welcome Admin' });
         }
     },
 
@@ -115,6 +125,7 @@ const Accounts = {
     loginUser: {
         auth:false,
         handler: async function(request, h) {
+            console.log("Accounts login User");
             const payload = request.payload;
             const email = payload.email;
             const password = payload.password;
@@ -131,9 +142,9 @@ const Accounts = {
                     return h.redirect('/home', {title: "User's Successful login", PID: user._id});
                 }
 
-              } catch (err) {
+            } catch (err) {
                 return h.view('signup', {errors: [{message: err.message}]});
-              }
+            }
         }
     },
 
@@ -141,23 +152,26 @@ const Accounts = {
     loginAdmin: {
         auth:false,
         handler: async function(request, h) {
+            console.log("Accounts loginAdmin");
             const payload = request.payload;
             const email = payload.email;
             const password = payload.password;
 
-            try{
-              let admin = await AdminA.findByEmail(email);
-              if(!admin) {
-                const message = 'Not a know Administrator';
-                throw new Boom(message);
-              }
-              if(admin) {
-                  admin.comparePassword(password);
-                  request.cookieAuth.set({id: admin._id});
-                  console.log(admin._id + " Admin pass word ok");
-                  return h.redirect('/home', {title:"Successful login",PID: admin._id});
-              }
-              // originally login was independent of type, but had issues, so split it out
+            try {
+                let admin = await AdminA.findByEmail(email);
+                if (!admin) {
+                    const message = 'Not a know Administrator';
+                    throw new Boom(message);
+                }
+                if (admin) {
+                    admin.comparePassword(password);
+                    request.cookieAuth.set({id: admin._id});
+                    console.log(admin._id + " Admin pass word ok");
+                    return h.redirect('/home', {title: "Successful login", PID: admin._id});
+                }
+
+
+                // originally login was independent of type, but had issues, so split it out
                 //let user = await User.findByEmail(email);
                 //if(user){
                 //    user.comparePassword(password);
@@ -181,11 +195,11 @@ const Accounts = {
                 //  console.log(user._id + " pass work ok");
                 //console.log(request.auth.credentials.id + " credential id");
 
-            } catch(er) {
+            } catch (er) {
                 console.log("login Admin error");
-               return h.view('login', {title:"Admin Login Issue",PID:0});
+                return h.view('login', {title: "Admin Login Issue", PID: 0});
             }
-            }
+        }
     },
 
 
@@ -200,7 +214,7 @@ const Accounts = {
 
     // show the existing settings of the logged in person, either Admin staff or User
     showSettings: {
-     //   auth:true,
+       // auth:false,
         handler: async function(request, h) {
             const id = request.auth.credentials.id;
             const user = await User.findById(id);
@@ -221,7 +235,7 @@ const Accounts = {
 
 // User or Admin staff updating their own settings
     updateSettings: {
-        //auth:true,
+      //  auth:true,
         handler: async function(request, h) {
             try {
                 // userEdit is the data from the form, on submit
@@ -235,11 +249,11 @@ const Accounts = {
                 console.log(admin +" admin update settings");
 
                 if (user) {
-                user.firstName = userEdit.firstName;
-                user.lastName = userEdit.lastName;
-                user.email = userEdit.email;
-                user.password = userEdit.password;
-                await user.save();
+                    user.firstName = userEdit.firstName;
+                    user.lastName = userEdit.lastName;
+                    user.email = userEdit.email;
+                    user.password = userEdit.password;
+                    await user.save();
                 }
                 if(admin){
                     admin.firstName = userEdit.firstName;
@@ -284,10 +298,10 @@ const Accounts = {
 
     // Admin Rights to view settings of others
     viewEditUser: {
-      //  auth:true,
+      //  auth:false,
         handler: async function (request, h) {
             const pid = 1;
-                //request.auth.credentials.id;
+            //request.auth.credentials.id;
             var id = request.query.id;
             console.log(id +" is the id from View Edit User ag");
             var o_id = new ObjectId(id);
@@ -299,13 +313,14 @@ const Accounts = {
             return h.view('userEdit', { title: 'Time to view a User Edit from View Edit User',userr: p2,PID:pid});
         }
     },
+
     showUsers: {
-       // auth:true,
+      //  auth:false,
         handler: async function(request, h){
-                // this is an admin function so just setting pid to one, as oppose to get admin user id
-                const pid = 1;
-                const pointt = await User.find();
-                return h.view('userView', { title: 'Admin - view all users for edit/delete',userr: pointt,PID:pid})
+            // this is an admin function so just setting pid to one, as oppose to get admin user id
+            const pid = 1;
+            const pointt = await User.find();
+            return h.view('userView', { title: 'Admin - view all users for edit/delete',userr: pointt,PID:pid})
         }
     },
     // admin rights -  to delete
@@ -318,10 +333,10 @@ const Accounts = {
             let usertodel = await User.findById(id);
             console.log(usertodel +"is the pt from the Delete User");
             try{
-               await usertodel.delete();
+                await usertodel.delete();
             } catch (err){
                 return h.view('home',{title:"User deletion - error"});
-              }
+            }
             return h.view('home',{title:"User successfully removed",PID:pid});
         }
     }

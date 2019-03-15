@@ -2,16 +2,20 @@
 const AdminA = require('../models/admin');
 const Poi = require('../models/poi');
 const Boom = require('boom');
-const ObjectId = require('mongodb').ObjectId;
+
+// 13.03 error in code const ObjectId = require('mongodb').ObjectId;
+const ObjectId = require('mongoose').Types.ObjectId;
+
+
 
 const Points = {
 
 
   //  index: {
-   //     handler: function (request, h) {
-   //         return h.view('main', {title: 'Welcome to Points of Interest'});
+ //       handler: function (request, h) {
+  //          return h.view('main', {title: 'Welcome to Points of Interest'});
    //     }
-  //  },
+//    },
   //  signup: {
   //      handler: function (request, h) {
   //          const id = request.auth.credentials.id;
@@ -19,15 +23,18 @@ const Points = {
    //     }
    // },
 
-  //  login: {
-  //      handler: function (request, h) {
-  //          const id = request.auth.credentials.id;
-  //          return h.view('login', {title: 'Login to Points of interest',PID:id});
-   //     }
-  //  },
+    login: {
+        auth:false,
+        handler: function (request, h) {
+            const id = request.auth.credentials.id;
+            return h.view('login', {title: 'Login to Points of interest',PID:id});
+        }
+    },
 
     home: {
+        //auth:true,
         handler: async function(request, h) {
+            console.log("Points home");
             const id = request.auth.credentials.id;
             // extract a list of the various categories,
             // for each category, create an object that holds all the point of interest for that category
@@ -39,12 +46,14 @@ const Points = {
                 const catColl = await Poi.find(qury);
                 holderAr.push(catColl);
             }
-            return h.view('home', { title: 'Welcome to the home page',groupCat:holderAr,PID:id});
-        },
+           return h.view('home', { title: 'Welcome to the home page',groupCat:holderAr,PID:id});
+    },
     },
 // not used
     homeAdmin: {
+        auth:false,
         handler: async function (request, h) {
+            console.log("Points homeAdmin");
             const id = request.auth.credentials.id;
             // extract a list of the various categories,
             // for each category, create an object that holds all the point of interest for that category
@@ -63,7 +72,9 @@ const Points = {
 
 
     report: {
+       // auth:true,
         handler: async function(request, h) {
+            console.log("Points report");
             const id = request.auth.credentials.id;
             const pois = await Poi.find();
             return h.view('report', { title: 'Points so far',pois: pois,PID:id});
@@ -71,7 +82,7 @@ const Points = {
    },
 // adding a point of interest
     addPoint: {
-       // auth:false,
+       // auth:true,
         handler: async function(request, h) {
             const id = request.auth.credentials.id;
             const payload = request.payload;
@@ -93,7 +104,7 @@ const Points = {
     },
 
     point: {
-       // auth:false,
+      //  auth:true,
         handler: async function(request, h) {
             const id = request.auth.credentials.id;
             return h.view('point', { title: 'Lets add a point of interest',PID:id});
@@ -103,7 +114,7 @@ const Points = {
 // creating an array, each object is a collection of points of interest that have the same category
 
     showPoints: {
-        //auth:false,
+       // auth:true,
         handler: async function (request, h) {
             const CatList = await Poi.distinct("category");
             const holderAr = [];
@@ -129,7 +140,7 @@ const Points = {
 
 // both Adin and User can update a point of interest
     updatePoint: {
-        //auth:false,
+       // auth:false,
         handler: async function(request, h) {
             const pid = request.auth.credentials.id;
 
@@ -163,6 +174,7 @@ const Points = {
 
     // removing by an Admin person, a point of Interest
     pointDelete: {
+     // auth:false,
       handler: async function(request, h) {
               const pid = request.auth.credentials.id;
               // const pois = await Poi.find();
@@ -186,7 +198,7 @@ const Points = {
 
 
     showPoint: {
-        //auth:false,
+       // auth:false,
         handler: async function(request, h) {
             const pid = request.auth.credentials.id;
             let id = request.params.id;
@@ -202,7 +214,7 @@ const Points = {
     },
 
     viewEditPoint: {
-        auth:false,
+        //auth:false,
         handler: async function (request, h) {
             const pid = request.auth.credentials.id;
             var id = request.query.id;
@@ -237,6 +249,7 @@ const Points = {
         },
     },
     testHelp2: {
+        auth:false,
         handler: async function (request, h) {
             const pid = request.auth.credentials.id;
             const CatList = await Poi.distinct("category");
