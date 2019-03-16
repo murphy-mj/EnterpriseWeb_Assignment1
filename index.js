@@ -8,6 +8,7 @@ if (result.error) {
 }
 
 const Hapi = require('hapi');
+
 require('./app/models/db');
 
 const server = Hapi.server({
